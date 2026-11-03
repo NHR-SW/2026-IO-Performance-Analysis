@@ -13,7 +13,7 @@ For this training, make sure to use these accounts and projects for your Slurm j
 
 ```
 #SBATCH --account=nhr-hpckurs
-#SBATCH --partition=ki-smallcpu
+#SBATCH --partition=smallcpu # or parallel
 ```
 
 ## General Python best practices
