@@ -14,32 +14,42 @@ Everything happens in `~/darshan-hands-on`, or similar:
 
 # Workspace and modules
 ```
-git clone <hands-on-repo-url> ~/darshan-hands-on
+cp -r /lustre/project/nhr-hpckurs/day2/hands-on ~/darshan-hands-on
+# or
+git clone https://github.com/NHR-SW/2026-IO-Performance-Analysis
+cp -r 2026-IO-Performance-Analysis/day-2-darshan/hands-on ~/darshan-hands-on
 cd ~/darshan-hands-on
 
 module purge
 module load compiler/GCC devel/CMake mpi/OpenMPI lang/Python
 which mpicc
+# Check
 ```
 
 # Build your own Darshan
 ```
 cd ~/darshan-hands-on
-git clone --branch 3.5.0 --depth 1 https://github.com/darshan-hpc/darshan.git
+git clone --branch 3.5.0 https://github.com/darshan-hpc/darshan.git
 cd darshan
+git submodule update --init
 autoreconf -i
+ls configure
+# Check
 
 # log path and job ID variable are required by configure
 ./configure --prefix=$HOME/darshan-hands-on/darshan-install \
     --with-log-path=$HOME/darshan-hands-on/logs \
     --with-jobid-env=SLURM_JOB_ID CC=mpicc
+    --enable-apmpi-mod
 make -j 8 install
 
-# check libs and tools
 ls ~/darshan-hands-on/darshan-install/lib/libdarshan.so
+# Check
 export PATH=$HOME/darshan-hands-on/darshan-install/bin:$PATH
 darshan-parser --version
+# Check
 
+# DONT DO THAT NOW
 # use it later by (never export LD_PRELOAD in your login shell):
 LD_PRELOAD=$HOME/darshan-hands-on/darshan-install/lib/libdarshan.so ./your-app
 
@@ -54,6 +64,7 @@ export DARSHAN_ENABLE_NONMPI=1
 # extended tracing, slower and more data
 export DARSHAN_MOD_ENABLE=DXT_POSIX,DXT_MPIIO
 # deprecated, still works: DXT_ENABLE_IO_TRACE=1
+#-----------------
 ```
 
 # Hacc-IO
@@ -96,5 +107,7 @@ darshan-diff <log1> <log2>
 cd ~/darshan-hands-on/youdo
 make
 sbatch job.slurm
+# analyze the I/O and improve it:
+vim youdo.c
+# rerun and check the results via darshan
 ```
-
