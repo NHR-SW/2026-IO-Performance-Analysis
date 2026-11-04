@@ -1,7 +1,6 @@
 #!/bin/bash
 
-#SBATCH --nodes=1
-#SBATCH --tasks=9
+#SBATCH --ntasks=9
 #SBATCH --account=nhr-hpckurs
 #SBATCH --partition=smallcpu
 #SBATCH --time=00:15:00
