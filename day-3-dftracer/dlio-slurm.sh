@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --tasks=16
+#SBATCH --ntasks=16
 #SBATCH --account=nhr-hpckurs
 #SBATCH --partition=parallel
 #SBATCH --time=00:30:00
